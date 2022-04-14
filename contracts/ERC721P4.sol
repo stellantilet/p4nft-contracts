@@ -13,6 +13,7 @@ contract ERC721P4 is ERC721Enumerable, Ownable {
 
     uint256 private __tokenIncrement;
     uint256 public totalRarity;
+    uint256 public maxSupply;
 
     P4CToken private __erc20P4C;
 
@@ -25,6 +26,7 @@ contract ERC721P4 is ERC721Enumerable, Ownable {
     {
         __tokenIncrement = 0;
         totalRarity = 0;
+        maxSupply = 4444;
         __erc20P4C = erc20P4C_;
 
         setBaseURI(baseURI_);
@@ -49,6 +51,7 @@ contract ERC721P4 is ERC721Enumerable, Ownable {
     }
 
     function next() internal virtual returns (uint256) {
+        require(__tokenIncrement < maxSupply, "Reached to max supply");
         uint256 _tokenId = __tokenIncrement;
         __tokenIncrement++;
         return _tokenId;
