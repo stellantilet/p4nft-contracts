@@ -12,10 +12,6 @@ async function main() {
   // Network
   const networkName = hardhat.network.name as "rinkeby" | "bscTestnet" | "bsc";
 
-  const ERC20P4C = await ethers.getContractFactory("ERC20P4C");
-  const erc20P4C = await ERC20P4C.deploy();
-  await erc20P4C.deployed();
-
   const scanURI = {
     mainnet: "https://etherscan.io",
     rinkeby: "https://rinkeby.etherscan.io",
@@ -23,15 +19,21 @@ async function main() {
     bsc: "https://bscscan.com",
   };
 
-  const erc721P4Args = [erc20P4C.address, "http://localhost:3000"];
+  // P4CToken deploy
+  const P4CToken = await ethers.getContractFactory("P4CToken");
+  const p4cToken = await P4CToken.deploy();
+  await p4cToken.deployed();
+
+  // ERC721P4 deploy
+  const erc721P4Args = [p4cToken.address, "http://localhost:3000"];
   const ERC721P4 = await ethers.getContractFactory("ERC721P4");
   const erc721P4 = await ERC721P4.deploy(...erc721P4Args);
   await erc721P4.deployed();
 
   const contractsParams = [
     {
-      name: "ERC20P4C",
-      contract: erc20P4C,
+      name: "P4CToken",
+      contract: p4cToken,
       arguments: [],
     },
     {

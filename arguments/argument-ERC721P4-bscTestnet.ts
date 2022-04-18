@@ -1,0 +1,1 @@
+export default ["0xfdD0F8Ff9DfFB0862800ccc0a8b9A480874271a9","http://localhost:3000"]
